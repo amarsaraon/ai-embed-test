@@ -3,12 +3,33 @@
 <head>
   <meta charset="utf-8">
   <title>Example School Student Portal</title>
-  <style>body { font-family: sans-serif; margin: 40px; background: #f4f4f4; }</style>
+  <style>
+    body { font-family: sans-serif; margin: 40px; background: #f4f4f4; }
+    form { margin: 24px 0; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    input { padding: 6px 8px; font-size: 14px; }
+  </style>
 </head>
 <body>
   <h1>Example School Student Portal</h1>
-  <p>This page stands in for a school's own website</p>
+  <p>This page stands in for a school's own website.</p>
 
-  <script src="https://plu.campusesp.dev:3000/ai/embedded_assistant.js"></script>
+  <form>
+    <label for="tenant">Tenant</label>
+    <input id="tenant" name="tenant" placeholder="plu" required pattern="[a-z0-9-]+">
+    <button type="submit">Load AI Assistant</button>
+  </form>
+
+  <script>
+    const tenant = new URLSearchParams(window.location.search).get('tenant')
+
+    if (tenant && /^[a-z0-9-]+$/.test(tenant)) {
+      const src = `https://${tenant}.campusesp.dev:3000/ai/embedded_assistant.js`
+      document.getElementById('tenant').value = tenant
+
+      const script = document.createElement('script')
+      script.src = src
+      document.body.appendChild(script)
+    }
+  </script>
 </body>
 </html>
